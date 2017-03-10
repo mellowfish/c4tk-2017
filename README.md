@@ -1,7 +1,11 @@
 # `<todo>Name goes here</todo>`
 > Created for C4tK Nashville 2017
 
-## Welcome!
+## We are live!
+
+Production URL: http://c4tk.somamou.org/
+
+## Purpose
 
 This is an empty rails app created to be a base for some project.
 
