@@ -1,0 +1,11 @@
+.row
+  .large-12.columns
+    .row
+      .large-12.columns
+        h1
+          =' song.title
+          small - Edit Lyrics
+    .row
+      .large-12.columns
+        = render partial: "section_form", collection: song.lyric_sections, as: :section
+        = link_to "Cancel", song_path(song), class: "button secondary"

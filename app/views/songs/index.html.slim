@@ -6,6 +6,12 @@
       .large-2.columns
         = link_to "Add Song", new_song_path, class: "button primary"
     hr
+    = form_tag songs_path, method: :get do
+      .row
+        .large-10.columns
+          = search_field_tag :q, params[:q]
+        .large-2.columns
+          = submit_tag "Search", class: "button primary"
     .row
       .large-6.columns
         h4.show-for-large Title

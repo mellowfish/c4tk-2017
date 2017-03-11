@@ -7,7 +7,14 @@
       = f.input :bpm
       = f.input :time_signature
       = f.input :release_year, min: 0, max: Date.today.year
-      = f.input :rating, collection: (0..5).map { |rating| ["\u2B50" * rating + "\u26AA" * (5 - rating), rating]}, as: :radio_buttons, container_html: { class: "horizontal" }
+      = f.input :rating, collection: (0..5).map { |rating| [StarRating.new(rating), rating]}, as: :radio_buttons, container_html: { class: "horizontal" }
+      hr
+      .row
+        .large-12.columns
+          - if song.persisted? && song.lyrics.present?
+            = render partial: "song_lyric_form", collection: song.lyrics, as: :song_lyric
+          - else
+            = f.input :raw_lyrics
       hr
       .row
         .large-1.columns

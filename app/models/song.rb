@@ -1,8 +1,21 @@
 class Song < ActiveRecord::Base
+  has_many :sections, class_name: "SongSection", dependent: :destroy
   has_many :lyrics, class_name: "SongLyric"
-  has_many :verse_references, through: :lyrics, class_name: "SongLyricVerseReference"
+  has_many :general_verse_references, class_name: "SongLyricVerseReference", dependent: :destroy
+  has_many :section_verse_references, through: :sections, class_name: "SongLyricVerseReference"
+  has_many :lyric_verse_references, through: :lyrics, class_name: "SongLyricVerseReference"
 
   validates :title, :artist, presence: true
+
+  attr_accessor :raw_lyrics
+
+  def self.from_search(search_text)
+    like_match = "%#{search_text}%"
+    Song
+      .distinct
+      .joins(:lyrics)
+      .where("title LIKE ? OR artist LIKE ? OR line LIKE ?", like_match, like_match, like_match)
+  end
 
   def to_param
     "#{id}-#{title.parameterize}"
@@ -13,7 +26,7 @@ class Song < ActiveRecord::Base
   end
 
   def star_rating
-     "\u2B50" * rating + "\u26AA" * (5 - rating)
+    StarRating.new(rating)
   end
 
   def tempo

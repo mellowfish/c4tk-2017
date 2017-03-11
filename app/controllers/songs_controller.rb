@@ -43,8 +43,13 @@ class SongsController < ApplicationController
 
   helper_method \
   def songs
-    # TODO: add search here
-    @songs ||= Song.page(page).per(per)
+    @songs ||=
+      if params[:q].present?
+        Song.from_search(params[:q])
+      else
+        Song.all
+      end.page(page).per(per)
+
   end
 
   helper_method \

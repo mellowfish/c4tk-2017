@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170311110501) do
+ActiveRecord::Schema.define(version: 20170311205556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,8 +25,9 @@ ActiveRecord::Schema.define(version: 20170311110501) do
     t.integer  "end_book"
     t.integer  "end_chapter"
     t.integer  "end_verse"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "song_section_id"
   end
 
   add_index "song_lyric_verse_references", ["song_id"], name: "index_song_lyric_verse_references_on_song_id", using: :btree
@@ -35,13 +36,22 @@ ActiveRecord::Schema.define(version: 20170311110501) do
   create_table "song_lyrics", force: :cascade do |t|
     t.integer  "song_id"
     t.text     "line"
-    t.string   "section"
     t.integer  "sort_order"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "song_section_id"
+  end
+
+  add_index "song_lyrics", ["song_id"], name: "index_song_lyrics_on_song_id", using: :btree
+
+  create_table "song_sections", force: :cascade do |t|
+    t.integer  "song_id"
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "song_lyrics", ["song_id"], name: "index_song_lyrics_on_song_id", using: :btree
+  add_index "song_sections", ["song_id"], name: "index_song_sections_on_song_id", using: :btree
 
   create_table "songs", force: :cascade do |t|
     t.string   "title"
@@ -59,4 +69,5 @@ ActiveRecord::Schema.define(version: 20170311110501) do
   add_foreign_key "song_lyric_verse_references", "song_lyrics"
   add_foreign_key "song_lyric_verse_references", "songs"
   add_foreign_key "song_lyrics", "songs"
+  add_foreign_key "song_sections", "songs"
 end

@@ -1,0 +1,11 @@
+.row
+  .large-12.columns
+    .row
+      .large-12.columns
+        h1
+          =' song.title
+          small - Add lyrics
+    hr
+    = simple_form_for(song, url: raw_create_song_lyrics_path(song), method: "POST") do |f|
+      = f.input :raw_lyrics, as: :text, input_html: { rows: 20 }
+      = f.button :submit, "Add Song Lyrics"
