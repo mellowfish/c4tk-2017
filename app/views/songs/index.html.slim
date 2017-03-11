@@ -1,0 +1,17 @@
+.row
+  .large-12.columns
+    .row
+      .large-10.columns
+        h1 All the Songs
+      .large-2.columns
+        = link_to "Add Song", new_song_path, class: "button primary"
+    hr
+    .row
+      .large-6.columns
+        h4.show-for-large Title
+        h4.hide-for-large Song Info
+      .large-4.columns.show-for-large
+        h4 Artist
+      .large-2.columns.show-for-large
+        h4 Actions
+    = render(partial: "list_item", collection: songs, as: :song)

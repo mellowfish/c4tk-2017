@@ -1,0 +1,16 @@
+.row
+  .large-12.columns
+    = simple_form_for(song) do |f|
+      = f.input :title
+      = f.input :artist
+      = f.input :video_url
+      = f.input :bpm
+      = f.input :time_signature
+      = f.input :release_year, min: 0, max: Date.today.year
+      = f.input :rating, collection: (0..5).map { |rating| ["\u2B50" * rating + "\u26AA" * (5 - rating), rating]}, as: :radio_buttons, container_html: { class: "horizontal" }
+      hr
+      .row
+        .large-1.columns
+          = link_to "Cancel", song.persisted? ? song_path(song) : songs_path, class: "button secondary"
+        .large-1.columns
+          = f.button :submit

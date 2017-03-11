@@ -1,0 +1,32 @@
+.row
+  .large-12.columns
+    .row
+      .large-12.columns
+        .row
+          .large-10.columns
+            nav role="navigation"
+              ul.breadcrumbs
+                li = link_to "Songs", songs_path
+                li = link_to song.title, song_path(song)
+          .large-1.columns
+            = link_to "Edit", edit_song_path(song), class: "button primary"
+          .large-1.columns
+            =' link_to "Delete", song_path(song), method: :destroy, confirm: "Are you sure you want to delete this song?", class: "button alert"
+    hr
+    .row
+      .large-12.columns
+        h1
+          =' song.title
+          small = song.artist
+    - if song.video_url.present?
+      hr
+      .row
+        .large-12.columns.text-center
+          iframe width="560" height="315" src=song.video_url frameborder="0" allowfullscreen=""
+    hr
+    .row
+      .large-12.columns
+        = key_value_row("Tempo:", song.tempo)
+        = key_value_row("Time Signature:", song.time_signature)
+        = key_value_row("Released:", song.release_year)
+        = key_value_row("Rating:", song.star_rating)
