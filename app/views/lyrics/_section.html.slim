@@ -1,3 +1,6 @@
-.callout
-  h4 = section.name
-  = render partial: "lyrics/line", collection: section.lyrics, as: :lyric
+.row
+  .large-1.column
+  .large-11.columns
+    h4 = section.name
+    = render partial: "lyrics/line", collection: section.lyrics, as: :lyric
+br

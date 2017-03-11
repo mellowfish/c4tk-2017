@@ -18,35 +18,13 @@
         h1
           =' song.title
           small = song.artist
-    - if song.video_url.present?
-      hr
-      .row
-        .large-12.columns.text-center
-          iframe width="560" height="315" src=song.video_url frameborder="0" allowfullscreen=""
-    hr
-    .row
-      .large-12.columns
-        = key_value_row("Tempo:", song.tempo)
-        = key_value_row("Time Signature:", song.time_signature)
-        = key_value_row("Released:", song.release_year)
-        = key_value_row("Rating:", song.star_rating)
-    hr
-    .row
-      .large-12.columns
-        .row
-          .large-8.columns
-            h2 Lyrics
-          - if song.sections.present?
-            .large-2.columns
-              =' link_to "Edit Lyrics", edit_all_song_lyrics_path(song), class: "button secondary"
-            .large-2.columns
-              = link_to "Delete Lyrics", destroy_all_song_lyrics_path(song), class: "button alert", data: { confirm: "Are you sure?" }
-          - else
-            .large-4.columns.text-left
-              = link_to "Add Lyrics", raw_new_song_lyrics_path(song), class: "button primary"
-        .row
-          .large-12-columns
-            - if song.sections.present?
-              = render partial: "lyrics/section", collection: song.sections, as: :section
-            - else
-              p No Lyrics Found
+    .tabs data-tabs="" id="song_tabs"
+      .tabs-title.is-active
+        = link_to("Details", "#details")
+      .tabs-title
+        = link_to("Lyrics", "#lyrics")
+    .tabs-content data-tabs-content="song_tabs"
+      .tabs-panel.is-active id="details"
+        = render partial: "details_tab"
+      .tabs-panel id="lyrics"
+        = render partial: "lyrics_tab"

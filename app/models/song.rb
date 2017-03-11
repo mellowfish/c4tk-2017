@@ -32,4 +32,13 @@ class Song < ActiveRecord::Base
   def tempo
     "#{bpm} Beats per Minute"
   end
+
+  def full_lyrics
+    # TODO: use sections
+    Array(lyrics).map(&:line).join("\n")
+  end
+
+  def as_json(options = {})
+    super(options || {}).merge(lyrics: full_lyrics)
+  end
 end

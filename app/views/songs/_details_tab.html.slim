@@ -1,0 +1,11 @@
+.row
+  .large-4.columns
+    = key_value_row("Tempo:", song.tempo)
+    = key_value_row("Time Signature:", song.time_signature)
+    = key_value_row("Released:", song.release_year)
+    = key_value_row("Rating:", song.star_rating)
+  .large-8.columns.text-center
+    - if song.video_url.present?
+      .row
+        .large-12.columns.text-center
+          iframe width="560" height="315" src=song.video_url frameborder="0" allowfullscreen=""
