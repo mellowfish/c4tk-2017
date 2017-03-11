@@ -8,6 +8,10 @@ class Song < ActiveRecord::Base
     "#{id}-#{title.parameterize}"
   end
 
+  def rating
+    super.to_i
+  end
+
   def star_rating
      "\u2B50" * rating + "\u26AA" * (5 - rating)
   end
