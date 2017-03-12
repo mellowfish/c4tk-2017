@@ -5,7 +5,7 @@ class SongLyricVerseReference < ActiveRecord::Base
 
   def self.import_raw_general_references(song:, general_references:)
     general_references
-      .split(/,\w?/)
+      .split(/[,;]\w?/)
       .each do |verse_reference|
       create!(song: song, start_verse_reference: verse_reference, end_verse_reference: verse_reference)
     end
