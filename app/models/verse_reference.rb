@@ -13,4 +13,12 @@ class VerseReference
   def to_s
     "#{book_name} #{chapter}:#{verse}"
   end
+
+  def old_testament?
+    book < 40
+  end
+
+  def new_testament?
+    book >= 40
+  end
 end

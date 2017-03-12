@@ -41,6 +41,8 @@ class VerseRange
   delegate :book, :chapter, :verse, to: :start_verse_ref, prefix: :start
   delegate :book, :chapter, :verse, to: :end_verse_ref, prefix: :end
 
+  delegate :old_testament?, :new_testament?, to: :start_verse_ref
+
   def to_s
     if start_book == end_book
       if start_chapter == end_chapter
@@ -55,5 +57,17 @@ class VerseRange
     else
       "#{start_verse_ref} - #{end_verse_reference}"
     end
+  end
+
+  def single_book?
+    start_book == end_book
+  end
+
+  def single_chapter?
+    single_book? && start_chapter == end_chapter
+  end
+
+  def single_verse?
+    single_chapter? && start_verse == end_verse
   end
 end

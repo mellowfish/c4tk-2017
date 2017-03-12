@@ -3,6 +3,45 @@ class SongLyricVerseReference < ActiveRecord::Base
   belongs_to :section, foreign_key: :song_section_id
   belongs_to :lyric, foreign_key: :song_lyric_id
 
+  def self.contains_verse_where_fragment(verse_reference)
+    <<-SQL
+(
+  (
+    start_book < #{verse_reference.book} OR
+    (
+      start_book = #{verse_reference.book} AND
+      (
+        start_chapter < #{verse_reference.chapter} OR
+        (
+          start_chapter = #{verse_reference.chapter} AND start_verse <= #{verse_reference.verse}
+        )
+      )
+    )
+  ) AND
+  (
+    end_book > #{verse_reference.book} OR
+    (
+      end_book = #{verse_reference.book} AND
+      (
+        end_chapter > #{verse_reference.chapter} OR
+        (
+          end_chapter = #{verse_reference.chapter} AND end_verse >= #{verse_reference.verse}
+        )
+      )
+    )
+  )
+)
+    SQL
+  end
+
+  scope :contains_verse, ->(verse_reference) { where(contains_verse_where_fragment(verse_reference)) }
+  scope :intersects_range, ->(verse_range) {
+    where("#{contains_verse_where_fragment(verse_range.start_verse_ref)} OR #{contains_verse_where_fragment(verse_range.end_verse_ref)}")
+  }
+  scope :contains_range, ->(verse_range) {
+    where("#{contains_verse_where_fragment(verse_range.start_verse_ref)} AND #{contains_verse_where_fragment(verse_range.end_verse_ref)}")
+  }
+
   def self.import_raw_general_references(song:, general_references:)
     general_references
       .split(/[,;]\w?/)

@@ -26,6 +26,7 @@ gem "puma"
 gem "kaminari"
 gem "slim-rails"
 gem "simple_form"
+gem "httparty"
 
 # Use Capistrano for deployment
 # gem "capistrano-rails", group: :development
