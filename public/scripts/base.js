@@ -6,7 +6,7 @@
   var $$utilities$$API_ENDPOINT = "http://c4tk.somamou.org/songs.json";
   var $$utilities$$API_SONG_ENDPOINT = $$utilities$$API_ENDPOINT.slice(0, -5);
   var $$utilities$$QUERY_KEY = "?q=";
-  var $$utilities$$DEBOUNCE_WAIT = 300;
+  var $$utilities$$DEBOUNCE_WAIT = 150;
   var $$utilities$$SEARCH_RESULTS_LIST = ".SearchResults-list";
   var $$utilities$$SEARCH_RESULTS_INFO = ".SearchResults-info";
   var $$utilities$$resultsList = document.querySelector("" + $$utilities$$SEARCH_RESULTS_LIST);
@@ -78,23 +78,51 @@
     var lyrics = _ref.lyrics,
         video_url = _ref.video_url,
         title = _ref.title,
-        artist = _ref.artist;
+        artist = _ref.artist,
+        general_references = _ref.general_references;
 
-    document.querySelector(".DetailVideo").setAttribute("src", video_url);
+    var video = document.querySelector(".DetailVideo");
+
+    if (video_url !== null) {
+      video.setAttribute("src", video_url);
+    } else {
+      video.style.display = "none";
+    }
+
+    if (general_references !== null) {
+      document.querySelector(".DetailContent-verses").innerHTML = $$utilities$$createVerseHTML(general_references);
+    }
+
+    if (lyrics !== null) {
+      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics;
+      document.querySelector(".DetailContent-lyrics").innerHTML = lyrics_with_title;
+    }
+
     document.querySelector(".DetailContent-title").innerHTML = title;
     document.querySelector(".DetailContent-artist").innerHTML = artist;
-    document.querySelector(".DetailContent-lyrics").innerHTML = lyrics;
+  }
+
+  function $$utilities$$createVerseHTML(verseArray) {
+    var htmlString = "";
+
+    verseArray.forEach(function (verse) {
+      if (verse.verse_text.length) {
+        htmlString += "<p class=\"u-margin-btm-neg\"><strong>" + verse.verse_reference + "</strong><p>" + verse.verse_text + "</p>";
+      }
+    });
+
+    return htmlString;
   }
 
   function $$utilities$$drawSongs(songs, query) {
     $$utilities$$docFrag = document.createDocumentFragment();
 
-    $$utilities$$drawResultsInfo(query);
-
     if (songs.constructor === Array) {
       songs.forEach($$utilities$$pushToSongsList);
+      $$utilities$$drawResultsInfo(query, songs.length);
     } else {
       $$utilities$$pushToSongsList(songs);
+      $$utilities$$drawResultsInfo(query, 1);
     }
     $$utilities$$resultsList.appendChild($$utilities$$docFrag);
     $$utilities$$docFrag = null;
@@ -107,20 +135,20 @@
 
     var tempDiv = document.createElement('div');
 
-    tempDiv.innerHTML = "<li class=\"SearchResults-listItem\" data-song-id=\"" + id + "\"><a href=\"/song.html?q=" + id + "\" class=\"SearchResults-listLink\">" + title + ", " + artist + "</a></li>";
+    tempDiv.innerHTML = "<li class=\"SearchResults-listItem u-fadein\" data-song-id=\"" + id + "\"><a href=\"/song.html?q=" + id + "\" class=\"SearchResults-listLink\">" + title + " - " + artist + "</a></li>";
     $$utilities$$docFrag.appendChild(tempDiv.firstChild);
   }
 
-  function $$utilities$$drawResultsInfo(query) {
+  function $$utilities$$drawResultsInfo(query, count) {
     var resultsInfo = document.querySelector("" + $$utilities$$SEARCH_RESULTS_INFO);
 
     $$utilities$$resultsList.innerHTML = "";
-    resultsInfo.innerHTML = "\"" + query + "\" RESULTS";
+    resultsInfo.innerHTML = count + " search results for: \"" + query + "\"";
   }
 
   function $$utilities$$drawNoResultsInfo(query) {
     $$utilities$$resultsList.innerHTML = "";
-    $$utilities$$resultsInfo.innerHTML = "\"" + query + "\" 0 RESULTS";
+    $$utilities$$resultsInfo.innerHTML = "0 search results for: \"" + query + "\"";
   }
 
   function $$utilities$$resetResults() {
@@ -128,8 +156,17 @@
     $$utilities$$resultsInfo.innerHTML = "";
   }
 
+  var src$partials$js$song_detail$$detailSearchBarTerm = document.querySelector(".DetailSearchBar");
+  var src$partials$js$song_detail$$detailSearchBar = document.querySelector(".DetailSearchBar-icon");
+
   if (window.location.pathname.match("song.html$")) {
     $$utilities$$fetchSong($$utilities$$getParameterByName("q"), $$utilities$$drawSongDetail);
+  }
+
+  if (src$partials$js$song_detail$$detailSearchBar !== null) {
+    src$partials$js$song_detail$$detailSearchBar.addEventListener("click", $$utilities$$debounce(function (e) {
+      window.location.href = "/index.html?term=" + src$partials$js$song_detail$$detailSearchBarTerm.value;
+    }, $$utilities$$DEBOUNCE_WAIT));
   }
 }).call(undefined);
 "use strict";
@@ -186,7 +223,7 @@
   var $$utilities$$API_ENDPOINT = "http://c4tk.somamou.org/songs.json";
   var $$utilities$$API_SONG_ENDPOINT = $$utilities$$API_ENDPOINT.slice(0, -5);
   var $$utilities$$QUERY_KEY = "?q=";
-  var $$utilities$$DEBOUNCE_WAIT = 300;
+  var $$utilities$$DEBOUNCE_WAIT = 150;
   var $$utilities$$SEARCH_RESULTS_LIST = ".SearchResults-list";
   var $$utilities$$SEARCH_RESULTS_INFO = ".SearchResults-info";
   var $$utilities$$resultsList = document.querySelector("" + $$utilities$$SEARCH_RESULTS_LIST);
@@ -258,23 +295,51 @@
     var lyrics = _ref.lyrics,
         video_url = _ref.video_url,
         title = _ref.title,
-        artist = _ref.artist;
+        artist = _ref.artist,
+        general_references = _ref.general_references;
 
-    document.querySelector(".DetailVideo").setAttribute("src", video_url);
+    var video = document.querySelector(".DetailVideo");
+
+    if (video_url !== null) {
+      video.setAttribute("src", video_url);
+    } else {
+      video.style.display = "none";
+    }
+
+    if (general_references !== null) {
+      document.querySelector(".DetailContent-verses").innerHTML = $$utilities$$createVerseHTML(general_references);
+    }
+
+    if (lyrics !== null) {
+      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics;
+      document.querySelector(".DetailContent-lyrics").innerHTML = lyrics_with_title;
+    }
+
     document.querySelector(".DetailContent-title").innerHTML = title;
     document.querySelector(".DetailContent-artist").innerHTML = artist;
-    document.querySelector(".DetailContent-lyrics").innerHTML = lyrics;
+  }
+
+  function $$utilities$$createVerseHTML(verseArray) {
+    var htmlString = "";
+
+    verseArray.forEach(function (verse) {
+      if (verse.verse_text.length) {
+        htmlString += "<p class=\"u-margin-btm-neg\"><strong>" + verse.verse_reference + "</strong><p>" + verse.verse_text + "</p>";
+      }
+    });
+
+    return htmlString;
   }
 
   function $$utilities$$drawSongs(songs, query) {
     $$utilities$$docFrag = document.createDocumentFragment();
 
-    $$utilities$$drawResultsInfo(query);
-
     if (songs.constructor === Array) {
       songs.forEach($$utilities$$pushToSongsList);
+      $$utilities$$drawResultsInfo(query, songs.length);
     } else {
       $$utilities$$pushToSongsList(songs);
+      $$utilities$$drawResultsInfo(query, 1);
     }
     $$utilities$$resultsList.appendChild($$utilities$$docFrag);
     $$utilities$$docFrag = null;
@@ -287,20 +352,20 @@
 
     var tempDiv = document.createElement('div');
 
-    tempDiv.innerHTML = "<li class=\"SearchResults-listItem\" data-song-id=\"" + id + "\"><a href=\"/song.html?q=" + id + "\" class=\"SearchResults-listLink\">" + title + ", " + artist + "</a></li>";
+    tempDiv.innerHTML = "<li class=\"SearchResults-listItem u-fadein\" data-song-id=\"" + id + "\"><a href=\"/song.html?q=" + id + "\" class=\"SearchResults-listLink\">" + title + " - " + artist + "</a></li>";
     $$utilities$$docFrag.appendChild(tempDiv.firstChild);
   }
 
-  function $$utilities$$drawResultsInfo(query) {
+  function $$utilities$$drawResultsInfo(query, count) {
     var resultsInfo = document.querySelector("" + $$utilities$$SEARCH_RESULTS_INFO);
 
     $$utilities$$resultsList.innerHTML = "";
-    resultsInfo.innerHTML = "\"" + query + "\" RESULTS";
+    resultsInfo.innerHTML = count + " search results for: \"" + query + "\"";
   }
 
   function $$utilities$$drawNoResultsInfo(query) {
     $$utilities$$resultsList.innerHTML = "";
-    $$utilities$$resultsInfo.innerHTML = "\"" + query + "\" 0 RESULTS";
+    $$utilities$$resultsInfo.innerHTML = "0 search results for: \"" + query + "\"";
   }
 
   function $$utilities$$resetResults() {
@@ -310,11 +375,16 @@
 
   var src$partials$js$song_search$$searchBar = document.querySelector(".SearchBar");
   var src$partials$js$song_search$$searchResults = document.querySelector(".SearchResults-listItem");
+  var src$partials$js$song_search$$termParam = $$utilities$$.getParameterByName("term");
 
   if (src$partials$js$song_search$$searchBar !== null) {
     src$partials$js$song_search$$searchBar.addEventListener("keyup", $$utilities$$.debounce(function (e) {
       $$utilities$$.fetchSongs(src$partials$js$song_search$$searchBar.value, $$utilities$$.drawSongs);
     }, $$utilities$$.DEBOUNCE_WAIT));
+  }
+
+  if (src$partials$js$song_search$$termParam !== null && src$partials$js$song_search$$termParam.length) {
+    $$utilities$$.fetchSongs(src$partials$js$song_search$$termParam, $$utilities$$.drawSongs);
   }
 }).call(undefined);
 "use strict";
@@ -325,7 +395,7 @@
   var src$partials$js$utilities$$API_ENDPOINT = "http://c4tk.somamou.org/songs.json";
   var src$partials$js$utilities$$API_SONG_ENDPOINT = src$partials$js$utilities$$API_ENDPOINT.slice(0, -5);
   var src$partials$js$utilities$$QUERY_KEY = "?q=";
-  var src$partials$js$utilities$$DEBOUNCE_WAIT = 300;
+  var src$partials$js$utilities$$DEBOUNCE_WAIT = 150;
   var src$partials$js$utilities$$SEARCH_RESULTS_LIST = ".SearchResults-list";
   var src$partials$js$utilities$$SEARCH_RESULTS_INFO = ".SearchResults-info";
   var src$partials$js$utilities$$resultsList = document.querySelector("" + src$partials$js$utilities$$SEARCH_RESULTS_LIST);
@@ -397,23 +467,51 @@
     var lyrics = _ref.lyrics,
         video_url = _ref.video_url,
         title = _ref.title,
-        artist = _ref.artist;
+        artist = _ref.artist,
+        general_references = _ref.general_references;
 
-    document.querySelector(".DetailVideo").setAttribute("src", video_url);
+    var video = document.querySelector(".DetailVideo");
+
+    if (video_url !== null) {
+      video.setAttribute("src", video_url);
+    } else {
+      video.style.display = "none";
+    }
+
+    if (general_references !== null) {
+      document.querySelector(".DetailContent-verses").innerHTML = src$partials$js$utilities$$createVerseHTML(general_references);
+    }
+
+    if (lyrics !== null) {
+      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics;
+      document.querySelector(".DetailContent-lyrics").innerHTML = lyrics_with_title;
+    }
+
     document.querySelector(".DetailContent-title").innerHTML = title;
     document.querySelector(".DetailContent-artist").innerHTML = artist;
-    document.querySelector(".DetailContent-lyrics").innerHTML = lyrics;
+  }
+
+  function src$partials$js$utilities$$createVerseHTML(verseArray) {
+    var htmlString = "";
+
+    verseArray.forEach(function (verse) {
+      if (verse.verse_text.length) {
+        htmlString += "<p class=\"u-margin-btm-neg\"><strong>" + verse.verse_reference + "</strong><p>" + verse.verse_text + "</p>";
+      }
+    });
+
+    return htmlString;
   }
 
   function src$partials$js$utilities$$drawSongs(songs, query) {
     src$partials$js$utilities$$docFrag = document.createDocumentFragment();
 
-    src$partials$js$utilities$$drawResultsInfo(query);
-
     if (songs.constructor === Array) {
       songs.forEach(src$partials$js$utilities$$pushToSongsList);
+      src$partials$js$utilities$$drawResultsInfo(query, songs.length);
     } else {
       src$partials$js$utilities$$pushToSongsList(songs);
+      src$partials$js$utilities$$drawResultsInfo(query, 1);
     }
     src$partials$js$utilities$$resultsList.appendChild(src$partials$js$utilities$$docFrag);
     src$partials$js$utilities$$docFrag = null;
@@ -426,20 +524,20 @@
 
     var tempDiv = document.createElement('div');
 
-    tempDiv.innerHTML = "<li class=\"SearchResults-listItem\" data-song-id=\"" + id + "\"><a href=\"/song.html?q=" + id + "\" class=\"SearchResults-listLink\">" + title + ", " + artist + "</a></li>";
+    tempDiv.innerHTML = "<li class=\"SearchResults-listItem u-fadein\" data-song-id=\"" + id + "\"><a href=\"/song.html?q=" + id + "\" class=\"SearchResults-listLink\">" + title + " - " + artist + "</a></li>";
     src$partials$js$utilities$$docFrag.appendChild(tempDiv.firstChild);
   }
 
-  function src$partials$js$utilities$$drawResultsInfo(query) {
+  function src$partials$js$utilities$$drawResultsInfo(query, count) {
     var resultsInfo = document.querySelector("" + src$partials$js$utilities$$SEARCH_RESULTS_INFO);
 
     src$partials$js$utilities$$resultsList.innerHTML = "";
-    resultsInfo.innerHTML = "\"" + query + "\" RESULTS";
+    resultsInfo.innerHTML = count + " search results for: \"" + query + "\"";
   }
 
   function src$partials$js$utilities$$drawNoResultsInfo(query) {
     src$partials$js$utilities$$resultsList.innerHTML = "";
-    src$partials$js$utilities$$resultsInfo.innerHTML = "\"" + query + "\" 0 RESULTS";
+    src$partials$js$utilities$$resultsInfo.innerHTML = "0 search results for: \"" + query + "\"";
   }
 
   function src$partials$js$utilities$$resetResults() {

@@ -16,5 +16,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: redirect("/index.html")
+  get "song(.format)" => "pages#song"
+
+  root to: "pages#index"
 end
