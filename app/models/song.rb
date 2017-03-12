@@ -2,15 +2,32 @@ class Song < ActiveRecord::Base
   has_many :sections, class_name: "SongSection", dependent: :destroy
   has_many :lyrics, class_name: "SongLyric"
 
+  has_many :verse_references, class_name: "SongLyricVerseReference"
   has_many :general_verse_references, -> { where(song_section_id: nil, song_lyric_id: nil) }, class_name: "SongLyricVerseReference", dependent: :destroy
   has_many :section_verse_references, through: :sections, class_name: "SongLyricVerseReference"
   has_many :lyric_verse_references, through: :lyrics, class_name: "SongLyricVerseReference"
 
   validates :title, :artist, presence: true
 
-  attr_accessor :raw_lyrics
+  attr_accessor :raw_lyrics, :general_references
 
   def self.from_search(search_text)
+    verse_range = VerseRange.parse(search_text) rescue nil
+    if verse_range
+      from_verse_range(verse_range)
+    else
+      from_text_search(search_text)
+    end
+  end
+
+  def self.from_verse_range(verse_range)
+    Song
+      .distinct
+      .joins(:verse_references)
+      .merge(SongLyricVerseReference.intersects_range(verse_range))
+  end
+
+  def self.from_text_search(search_text)
     like_match = "%#{search_text}%"
     Song
       .distinct
@@ -41,6 +58,10 @@ class Song < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options || {}).merge(lyrics: full_lyrics, general_references: general_verse_references.map(&:to_s))
+    super(options || {})
+      .merge(
+        lyrics: full_lyrics,
+        general_references: general_verse_references.map(&:to_h)
+      )
   end
 end

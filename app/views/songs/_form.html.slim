@@ -9,6 +9,10 @@
       = f.input :release_year, min: 0, max: Date.today.year
       = f.input :rating, collection: (0..5).map { |rating| [StarRating.new(rating), rating]}, as: :radio_buttons, container_html: { class: "horizontal" }
       hr
+      - unless song.persisted?
+        = f.input :general_references, as: :text
+        = f.input :raw_lyrics, as: :text, input_html: { rows: 20 }
+        hr
       .row
         .large-1.columns
           = link_to "Cancel", song.persisted? ? song_path(song) : songs_path, class: "button secondary"
