@@ -24,7 +24,7 @@ class VerseRange
             VerseReference.new(book_name, start_chapter, end_verse)
           end
         else
-          start_verse
+          start_verse_ref
         end
       new(start_verse_ref, end_verse_ref)
     else
