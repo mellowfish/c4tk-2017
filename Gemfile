@@ -19,7 +19,6 @@ gem "jquery-rails"
 # Use ActiveModel has_secure_password
 gem "bcrypt", "~> 3.1.7"
 
-gem "high_voltage", "~> 3.0.0"
 gem "foundation-rails"
 
 gem "puma"
