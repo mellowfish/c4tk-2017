@@ -8,7 +8,7 @@ class Song < ActiveRecord::Base
 
   validates :title, :artist, presence: true
 
-  attr_accessor :raw_lyrics
+  attr_accessor :raw_lyrics, :general_references
 
   def self.from_search(search_text)
     like_match = "%#{search_text}%"

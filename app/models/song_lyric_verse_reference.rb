@@ -3,6 +3,14 @@ class SongLyricVerseReference < ActiveRecord::Base
   belongs_to :section, foreign_key: :song_section_id
   belongs_to :lyric, foreign_key: :song_lyric_id
 
+  def self.import_raw_general_references(song:, general_references:)
+    general_references
+      .split(/,\w?/)
+      .each do |verse_reference|
+      create!(song: song, start_verse_reference: verse_reference, end_verse_reference: verse_reference)
+    end
+  end
+
   def start_book_name
     Bible.book_name(start_book)
   end

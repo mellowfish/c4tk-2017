@@ -11,11 +11,16 @@ class SongsController < ApplicationController
   end
 
   def create
-    raw_lyrics = params[:song].delete(:raw_lyrics)
+    general_references = params[:song][:general_references]
+    raw_lyrics = params[:song][:raw_lyrics]
     @song = Song.create(song_params)
     if song.persisted?
-      if raw_lyrics
+      if raw_lyrics.present?
         ImportsRawLyrics.new(song: @song, raw_lyrics: raw_lyrics).call
+      end
+
+      if general_references.present?
+        SongLyricVerseReference.import_raw_general_references(song: @song, general_references: general_references)
       end
       return redirect_to song_path(song)
     end
