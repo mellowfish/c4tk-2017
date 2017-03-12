@@ -16,5 +16,5 @@ Rails.application.routes.draw do
     end
   end
 
-  root "index.html"
+  root to: "static#index"
 end
