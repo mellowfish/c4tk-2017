@@ -94,7 +94,7 @@
     }
 
     if (lyrics !== null) {
-      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics;
+      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics.replace(/\n/g, "<br />");
       document.querySelector(".DetailContent-lyrics").innerHTML = lyrics_with_title;
     }
 
@@ -311,7 +311,7 @@
     }
 
     if (lyrics !== null) {
-      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics;
+      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics.replace(/\n/g, "<br />");
       document.querySelector(".DetailContent-lyrics").innerHTML = lyrics_with_title;
     }
 
@@ -483,7 +483,7 @@
     }
 
     if (lyrics !== null) {
-      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics;
+      var lyrics_with_title = "<p class=\"u-margin-btm-5\"><strong>Lyrics</strong></p>" + lyrics.replace(/\n/g, "<br />");
       document.querySelector(".DetailContent-lyrics").innerHTML = lyrics_with_title;
     }
 
