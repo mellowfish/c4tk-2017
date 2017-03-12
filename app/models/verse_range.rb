@@ -2,15 +2,15 @@ class VerseRange
   def self.parse(verse_range_str)
     if /
         (?<book_name>(?:\d\s+)?[[:alpha:]]+)
-        \s+
-        (?<start_chapter>\d+)
-        :
+        \s*
+        (?<start_chapter>\d+)\s*
+        :\s*
         (?<start_verse>\d+)
         (?:
-          -
+          \s*-\s*
           (?:
             (?<end_chapter>\d+)
-            :
+            \s*:\s*
           )?
           (?<end_verse>\d+)
         )?
