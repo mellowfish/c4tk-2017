@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   get "song(.format)" => "pages#song"
+  get "index(.format)" => "pages#index"
 
   root to: "pages#index"
 end
