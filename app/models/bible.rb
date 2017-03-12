@@ -32,6 +32,10 @@ class Bible
     Jude Revelation
   )
 
+  BOOK_RENAMES = {
+    "Psalm" => "Psalms"
+  }
+
   def self.book_name(book_number)
     return nil if book_number.blank?
 
@@ -40,7 +44,11 @@ class Bible
 
   def self.book_number(book_name)
     return -1 if book_name.blank?
-    BOOKS.index(book_name.capitalize)
+
+    book_name = book_name.capitalize
+    book_name = BOOK_RENAMES.fetch(book_name, book_name)
+
+    BOOKS.index(book_name)
   end
 
   def self.parse_bcv(verse_ref_str)
