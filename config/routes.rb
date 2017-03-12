@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get "/styles/base.css" => redirect("/pages/styles/base.css")
-  get "/scripts/base.js" => redirect("/pages/scripts/base.js")
-
   resources :songs do
     resources :lyrics do
       collection do
