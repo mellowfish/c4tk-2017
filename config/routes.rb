@@ -16,5 +16,5 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: "static#index"
+  root to: redirect("/index.html")
 end
