@@ -20,7 +20,13 @@ class ImportsRawLyrics
       start_bridge
     elsif possible_section_boundary.start_with?("verse") || possible_section_boundary.blank?
       start_verse
-    elsif possible_section_boundary.start_with?("lyric")
+    elsif possible_section_boundary.start_with?("lyric") ||
+      (
+        line_number == 0 &&
+          (
+            possible_section_boundary.start_with?("capo")
+          )
+      )
       # noop
     else
       record_line_in_section

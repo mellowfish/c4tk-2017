@@ -11,8 +11,14 @@ class SongsController < ApplicationController
   end
 
   def create
+    raw_lyrics = params[:song].delete(:raw_lyrics)
     @song = Song.create(song_params)
-    return redirect_to song_path(song) if song.persisted?
+    if song.persisted?
+      if raw_lyrics
+        ImportsRawLyrics.new(song: @song, raw_lyrics: raw_lyrics).call
+      end
+      return redirect_to song_path(song)
+    end
   end
 
   def show
