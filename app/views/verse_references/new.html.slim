@@ -1,0 +1,9 @@
+h1
+  = song.title
+  small - Add a Verse Reference
+  .row
+    .large-12.columns
+      = simple_form_for(verse_reference, url: song_verse_references_path(song: song)) do |f|
+        = f.input :start_verse_reference
+        = f.input :end_verse_reference
+        = f.button :submit, "Add Verse Reference"

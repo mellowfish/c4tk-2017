@@ -1,0 +1,20 @@
+.row
+  .large-12.columns
+    .row
+      .large-8.columns
+        h3 General Verse References for this Song
+      - if song.general_verse_references.present?
+        .large-2.columns
+          = link_to "Add Verse References", new_song_verse_references_path(song), class: "button primary"
+        .large-2.columns
+          = link_to "Delete All General Verse References", destroy_general_song_verse_references_path(song), class: "button alert", data: { confirm: "Are you sure?" }
+      - else
+        .large-4.columns.text-right
+          = link_to "Add Verse References", new_song_verse_references_path(song), class: "button primary"
+    .row
+      .large-12-columns
+        - if song.general_verse_references.present?
+          = render partial: "verse_reference", collection: song.general_verse_references, as: :verse_reference
+        - else
+          p No Verse References Found
+

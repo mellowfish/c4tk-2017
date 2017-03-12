@@ -18,13 +18,17 @@
         h1
           =' song.title
           small = song.artist
-    .tabs data-tabs="" id="song_tabs"
+    .tabs data-deep-link="true" data-tabs="" id="song_tabs"
       .tabs-title.is-active
         = link_to("Details", "#details")
       .tabs-title
         = link_to("Lyrics", "#lyrics")
+      .tabs-title
+        = link_to("Verses", "#verses")
     .tabs-content data-tabs-content="song_tabs"
       .tabs-panel.is-active id="details"
         = render partial: "details_tab"
       .tabs-panel id="lyrics"
         = render partial: "lyrics_tab"
+      .tabs-panel id="verses"
+        = render partial: "verses_tab"

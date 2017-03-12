@@ -7,7 +7,7 @@ class LyricsController < ApplicationController
 
   def raw_create
     SongLyric.import_from_raw_lyrics(song: song, raw_lyrics: params.require(:song).require(:raw_lyrics))
-    redirect_to song_path(song)
+    redirect_to song_path(song, anchor: "lyrics")
   end
 
   def edit_all
@@ -15,7 +15,7 @@ class LyricsController < ApplicationController
 
   def destroy_all
     song.sections.destroy_all
-    redirect_to song_path(song)
+    redirect_to song_path(song, anchor: "lyrics")
   end
 
   def new

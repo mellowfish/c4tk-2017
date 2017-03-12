@@ -8,5 +8,11 @@ Rails.application.routes.draw do
         match "destroy_all" => "lyrics#destroy_all", as: :destroy_all, via: [:get, :delete]
       end
     end
+
+    resource :verse_references do
+      collection do
+        match "destroy_general" => "verse_references#destroy_general", as: :destroy_general, via: [:get, :delete]
+      end
+    end
   end
 end

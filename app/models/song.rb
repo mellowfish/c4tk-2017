@@ -1,7 +1,8 @@
 class Song < ActiveRecord::Base
   has_many :sections, class_name: "SongSection", dependent: :destroy
   has_many :lyrics, class_name: "SongLyric"
-  has_many :general_verse_references, class_name: "SongLyricVerseReference", dependent: :destroy
+
+  has_many :general_verse_references, -> { where(song_section_id: nil, song_lyric_id: nil) }, class_name: "SongLyricVerseReference", dependent: :destroy
   has_many :section_verse_references, through: :sections, class_name: "SongLyricVerseReference"
   has_many :lyric_verse_references, through: :lyrics, class_name: "SongLyricVerseReference"
 
@@ -34,11 +35,12 @@ class Song < ActiveRecord::Base
   end
 
   def full_lyrics
-    # TODO: use sections
-    Array(lyrics).map(&:line).join("\n")
+    return nil unless sections.present?
+
+    sections.map { |section| section.lyrics.map(&:line).join("\n") }.join("\n\n")
   end
 
   def as_json(options = {})
-    super(options || {}).merge(lyrics: full_lyrics)
+    super(options || {}).merge(lyrics: full_lyrics, general_references: general_verse_references.map(&:to_s))
   end
 end

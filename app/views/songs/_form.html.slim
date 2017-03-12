@@ -10,13 +10,6 @@
       = f.input :rating, collection: (0..5).map { |rating| [StarRating.new(rating), rating]}, as: :radio_buttons, container_html: { class: "horizontal" }
       hr
       .row
-        .large-12.columns
-          - if song.persisted? && song.lyrics.present?
-            = render partial: "song_lyric_form", collection: song.lyrics, as: :song_lyric
-          - else
-            = f.input :raw_lyrics
-      hr
-      .row
         .large-1.columns
           = link_to "Cancel", song.persisted? ? song_path(song) : songs_path, class: "button secondary"
         .large-1.columns
