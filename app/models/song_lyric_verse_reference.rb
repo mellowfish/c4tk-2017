@@ -87,4 +87,15 @@ class SongLyricVerseReference < ActiveRecord::Base
   def verse_range
     VerseRange.new(start_verse_reference, end_verse_reference) if start_verse_reference
   end
+
+  def verse_text
+    DBP::Verse.text_for_range(verse_range) if start_verse_reference && verse_range.single_chapter?
+  end
+
+  def to_h
+    {
+      verse_reference: verse_range_str,
+      verse_text: verse_text.to_s
+    }
+  end
 end

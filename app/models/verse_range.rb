@@ -38,8 +38,8 @@ class VerseRange
     @end_verse_ref = end_verse_ref
   end
 
-  delegate :book, :chapter, :verse, to: :start_verse_ref, prefix: :start
-  delegate :book, :chapter, :verse, to: :end_verse_ref, prefix: :end
+  delegate :book, :book_name, :chapter, :verse, to: :start_verse_ref, prefix: :start
+  delegate :book, :book_name, :chapter, :verse, to: :end_verse_ref, prefix: :end
 
   delegate :old_testament?, :new_testament?, to: :start_verse_ref
 

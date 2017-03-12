@@ -58,6 +58,10 @@ class Song < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options || {}).merge(lyrics: full_lyrics, general_references: general_verse_references.map(&:to_s))
+    super(options || {})
+      .merge(
+        lyrics: full_lyrics,
+        general_references: general_verse_references.map(&:to_h)
+      )
   end
 end

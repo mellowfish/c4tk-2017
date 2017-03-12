@@ -24,7 +24,7 @@ module DBP
     end
 
     def self.find_by_dam_id(dam_id)
-      get("library/book", DBP.standard_query_params.merge(dam_id: dam_id))
+      get("/library/book", DBP.standard_query_params.merge(dam_id: dam_id))
     end
   end
 end
