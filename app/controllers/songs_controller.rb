@@ -1,4 +1,6 @@
 class SongsController < ApplicationController
+  skip_before_action :verify_authenticity_token, if: :api_call?
+
   def index
     respond_to do |format|
       format.html
@@ -47,6 +49,10 @@ class SongsController < ApplicationController
   end
 
   private
+
+  def api_call?
+    params[:api_key] == "shibboleet"
+  end
 
   def song_params
     params.required(:song).permit(:title, :artist, :video_url, :bpm, :time_signature, :release_year, :rating)
