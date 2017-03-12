@@ -25,6 +25,7 @@ class VerseReferencesController < ApplicationController
       .require(:song_lyric_verse_reference)
       .permit(
         :song_id, :song_section_id, :song_lyric_id,
+        :verse_range_str,
         :start_book, :start_book_name, :start_chapter, :start_verse, :start_verse_reference,
         :end_book, :end_book_name, :end_chapter, :end_verse, :end_verse_reference
       )

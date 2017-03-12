@@ -45,17 +45,9 @@ class Bible
   def self.book_number(book_name)
     return -1 if book_name.blank?
 
-    book_name = book_name.capitalize
+    book_name = book_name.titleize
     book_name = BOOK_RENAMES.fetch(book_name, book_name)
 
-    BOOKS.index(book_name)
-  end
-
-  def self.parse_bcv(verse_ref_str)
-    *book_parts, chapter_verse = verse_ref_str.split(" ")
-    ref_book_name = book_parts.join(" ")
-    ref_chapter, ref_verse = chapter_verse.split(":")
-
-    [book_number(ref_book_name), ref_chapter.to_i, ref_verse.to_i]
+    BOOKS.index(book_name) || (raise "Unknown book #{book_name}")
   end
 end

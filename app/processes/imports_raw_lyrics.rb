@@ -13,11 +13,18 @@ class ImportsRawLyrics
   end
 
   def process(line)
-    possible_section_boundary = line.downcase.gsub(/[^[:alpha:] ]/, "").strip
+    possible_section_boundary =
+      line
+        .downcase
+        .gsub(/[^[:alpha:] ]/, "")
+        .gsub(/repeat\w*/, "")
+        .strip
     if possible_section_boundary.start_with?("chorus")
       start_chorus
     elsif possible_section_boundary.start_with?("bridge")
       start_bridge
+    elsif possible_section_boundary.start_with?("intro")
+      start_intro
     elsif possible_section_boundary.start_with?("verse") || possible_section_boundary.blank?
       start_verse
     elsif possible_section_boundary.start_with?("lyric") ||
@@ -67,6 +74,11 @@ class ImportsRawLyrics
   def start_bridge
     @lines_in_section = 0
     @section = SongSection.new(song: song, name: "Bridge")
+  end
+
+  def start_intro
+    @lines_in_section = 0
+    @section = SongSection.new(song: song, name: "Intro")
   end
 
   def start_verse
